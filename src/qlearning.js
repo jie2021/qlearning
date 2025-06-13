@@ -9,7 +9,7 @@ const maze = [
 ];
 
 const start = [0, 0];
-const goal = [3, 0];
+const goal = [3, 3];
 
 // Q-learning 파라미터 설정
 const alpha = 0.1; // 학습률
