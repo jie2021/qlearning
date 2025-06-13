@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-learning Maze Solver</title>
+    <style>
+        #maze {
+            display: grid;
+            grid-template-columns: repeat(4, 50px);
+            grid-template-rows: repeat(4, 50px);
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 50px;
+        }
+        .wall {
+            background-color: black;
+        }
+        .start {
+            background-color: green;
+        }
+        .goal {
+            background-color: red;
+        }
+        .path {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Q-learning Maze Solver</h1>
+    <div id="maze"></div>
+    <button id="runQLearningBtn">Run Q-learning</button>
+    <script type="module" src="./src/qlearning.js"></script>
+    <script>
+      runQLearningBtn.addEventListener('click', () => {
+          import('./src/qlearning.js').then(module => {
+              module.runQLearning();
+          });
+      });
+    </script>
+   
+</body>
+</html>
+
