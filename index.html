@@ -32,20 +32,40 @@
     </style>
 </head>
 <body>
-    <h1>Q-learning Maze Solver</h1>
+    <h1>AI 강화학습 시뮬레이션</h1>
     <div id="maze"></div>
-    <input type text id="learningRate" placeholder="Learning Rate (0.1)">
-    <input type text id="discountFactor" placeholder="Discount Factor (0.9)">  
-    <input type text id="epsilon" placeholder="Epsilon (0.1)">
-    <input type text id="episodes" placeholder="Episodes (1000)"> 
-    <button id="runQLearningBtn">Run Q-learning</button>
+    <p>
+        학습률: <input type text id="learningRate" placeholder="Learning Rate (0.1)">
+    </p>
+    <p>
+        할인율: <input type text id="discountFactor" placeholder="Discount Factor (0.9)"> 
+    </p> 
+    <p>
+        탐험율: <input type text id="epsilon" placeholder="Epsilon (0.1)">
+    </p>
+    <p>
+        훈련 횟수: <input type text id="episodes" placeholder="Episodes (1000)"> 
+
+    </p>    
+        <button id="runQLearningBtn">AI 학습 시작</button>
     <script type="module" src="./src/qlearning.js"></script>
     <script>
+      window.addEventListener('DOMContentLoaded', () => {
+          import('./src/qlearning.js').then(module => {
+              if (typeof module.displayMaze === 'function') {
+                  module.displayMaze();
+              }
+          });
+      });
+    </script>
+    <script>
+      
       runQLearningBtn.addEventListener('click', () => {
           import('./src/qlearning.js').then(module => {
               module.runQLearning();
           });
       });
+      
     </script>
    
 </body>
