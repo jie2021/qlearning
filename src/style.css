@@ -1,6 +1,6 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -24,7 +24,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  /* display: flex; */
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -35,32 +35,57 @@ h1 {
   line-height: 1.1;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+#maze {
+    display: grid;
+    grid-template-columns: repeat(101, 10px);
+    grid-template-rows: repeat(101, 10px);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+#parameters {
+    display: grid;
+    grid-template-columns: repeat(6, 200px);
+    grid-template-rows: repeat(2, 50px);
+    line-height: 1.5;
 }
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
+.cell {
+    width: 10px;
+    height: 10px;
+    border: 1px solid black;
+    text-align: center;
+    line-height: 5px;
+}
+.wall {
+    background-color: black;
+}
+.start {
+    background-color: green;
+}
+.goal {
+    background-color: red;
+}
+.path {
+    background-color: yellow;
+}
+#runQLearningBtn {
+  margin-top: 0em;
+  padding: 0.5em 1em;
+  font-size: 1.2em;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .card {
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
+#progress {
+  font-weight: bold;
+  color: #646cff;
+  font-size: 1em;
+  
 }
 
 button {
@@ -70,7 +95,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #fdfcfc;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -79,7 +104,7 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 1px auto -webkit-focus-ring-color;
 }
 
 @media (prefers-color-scheme: light) {

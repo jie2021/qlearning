@@ -4,38 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 강화학습 시뮬레이션</title>
-    <style>
-        #maze {
-            display: grid;
-            grid-template-columns: repeat(101, 10px);
-            grid-template-rows: repeat(101, 10px);
-        }
-        #parameters {
-            display: grid;
-            grid-template-columns: repeat(5, 200px);
-            grid-template-rows: repeat(2, 50px);
-        }
-        .cell {
-            width: 10px;
-            height: 10px;
-            border: 1px solid black;
-            text-align: center;
-            line-height: 5px;
-        }
-        .wall {
-            background-color: black;
-        }
-        .start {
-            background-color: green;
-        }
-        .goal {
-            background-color: red;
-        }
-        .path {
-            background-color: yellow;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="./src/style.css">
+    </head>
 <body>
     <h1>AI 강화학습 시뮬레이션</h1>
     <p>강화학습을 통해 AI가 미로를 탐색하고 목표 지점에 도달하는 과정을 시뮬레이션합니다.</p>
@@ -62,7 +32,14 @@
         <p>
             <label for="episodes">훈련 횟수 (Episodes):</label>
             <input type="text" id="episodes" placeholder="3000">
-        </p>    
+        </p> 
+        <p>
+            <label for="progress">진행율 (progress):</label><br>
+            <label id="progress">0/0</label>
+            
+        </p> 
+        
+
         <p><button id="runQLearningBtn">AI 학습 시작</button></p>
     </div>
     

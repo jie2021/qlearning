@@ -53,7 +53,7 @@ const qTable = zeros(maze.length, maze[0].length, 4).toArray();
 // 가능한 행동 정의 (상, 하, 좌, 우)
 const actions = [
     [-1, 0], // 상
-    [1, 0],  // 하
+    [+1, 0],  // 하
     [0, -1], // 좌
     [0, 1]   // 우
 ];
@@ -91,7 +91,7 @@ function getNextState(state, action) {
 }
 
 // Q-learning 알고리즘
-function qLearning() {
+async function  qLearning() {
     var maxEpisodes = parseInt(document.getElementById('episodes').value) || 3000;
     for (let episode = 0; episode < maxEpisodes; episode++) {
         let state = start;
@@ -127,7 +127,11 @@ function qLearning() {
             
         }
         // await delay(1);
-        if(episode%100==99) displayMaze();
+        if(episode%10==9){
+            document.getElementById('progress').innerText = `${episode + 1}/${maxEpisodes}`;
+            await delay(0); // Force browser to render progress update
+            displayMaze();  
+        }         
     }
     console.log('Q-learning completed.');
     console.log('Q-table:', qTable);
@@ -137,7 +141,7 @@ function qLearning() {
 
 // delay 함수 정의
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+        return new Promise(resolve => setTimeout(resolve, ms)); 
 }
 
 // 미로 표시 함수
