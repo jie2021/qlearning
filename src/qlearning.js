@@ -73,7 +73,7 @@ function getReward(Nextstate, state) {
     //     return 0.1; // 목표 지점에 멀어질 때 보상
     }
     else{
-        return -3; // 일반적인 이동 시 작은 보상
+        return -1; // 일반적인 이동 시 작은 보상
     }
     
 }
