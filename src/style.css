@@ -38,8 +38,8 @@ h1 {
 
 #maze {
     display: grid;
-    grid-template-columns: repeat(101, 10px);
-    grid-template-rows: repeat(101, 10px);
+    grid-template-columns: repeat(101, 5px);
+    grid-template-rows: repeat(101, 5px);
 }
 #parameters {
     display: grid;
@@ -48,9 +48,9 @@ h1 {
     line-height: 1.5;
 }
 .cell {
-    width: 10px;
-    height: 10px;
-    border: 1px solid black;
+    width: 5px;
+    height: 5px;
+    border: 0px solid black;
     text-align: center;
     line-height: 5px;
 }
