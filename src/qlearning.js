@@ -1,8 +1,8 @@
-import { zeros } from 'mathjs';
+import { distance, zeros } from 'mathjs';
 import generator from 'generate-maze';
 
 //미로 행렬 생성
-let size=40;
+let size=50;
 let miroArray=[];
 for(let i=0;i<size*2+1;i++){
     miroArray[i]= new Array(size*2+1).fill(1);
@@ -58,14 +58,26 @@ const actions = [
     [0, 1]   // 우
 ];
 
+function MHdistance(state1, state2) {
+    return Math.abs(state1[0] - state2[0]) + Math.abs(state1[1] - state2[1]);
+}
 // 보상 함수 정의
-function getReward(state) {
-    const [x, y] = state;
+function getReward(Nextstate, state) {
+    const [x, y] = Nextstate;
     if (x === goal[0] && y === goal[1]) {
         return 100; // 목표 지점 도달 시 큰 보상
+    // }else if(MHdistance([x, y], goal) < MHdistance(state, goal)){
+    //     return 0.1; // 목표 지점에 가까워질 때 보상
+    
+    // }else if(MHdistance([x, y], goal) > MHdistance(state, goal)){
+    //     return 0.1; // 목표 지점에 멀어질 때 보상
     }
-    return -1; // 일반적인 이동 시 작은 보상
+    else{
+        return -3; // 일반적인 이동 시 작은 보상
+    }
+    
 }
+
 
 // 다음 상태 계산
 function getNextState(state, action) {
@@ -80,7 +92,7 @@ function getNextState(state, action) {
 
 // Q-learning 알고리즘
 function qLearning() {
-    var maxEpisodes = parseInt(document.getElementById('episodes').value) || 2000;
+    var maxEpisodes = parseInt(document.getElementById('episodes').value) || 3000;
     for (let episode = 0; episode < maxEpisodes; episode++) {
         let state = start;
         if(episode%100==99) console.log(`Episode ${episode + 1}: Starting at state ${state}`);
@@ -88,6 +100,7 @@ function qLearning() {
         while (true) {
             count++;
             if(count>maze.length*maze[0].length*4) break; // 무한 루프 방지
+            // if(count>200) break;
             // 탐험 또는 활용 결정
             let action;
             if (Math.random() < epsilon) {
@@ -98,7 +111,7 @@ function qLearning() {
             }
 
             const nextState = getNextState(state, action);
-            const reward = getReward(nextState);
+            const reward = getReward(nextState,state);
 
             // Q 값 업데이트
             const qValue = qTable[state[0]][state[1]][actions.indexOf(action)];
@@ -116,8 +129,8 @@ function qLearning() {
         // await delay(1);
         if(episode%100==99) displayMaze();
     }
-    // console.log('Q-learning completed.');
-    // console.log('Q-table:', qTable);
+    console.log('Q-learning completed.');
+    console.log('Q-table:', qTable);
     displayOptimalPath();
     
 }
