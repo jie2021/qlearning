@@ -2,16 +2,14 @@ import { zeros } from 'mathjs';
 import generator from 'generate-maze';
 
 //미로 행렬 생성
-let size=100;
-let  miroArray=[];
+let size=40;
+let miroArray=[];
 for(let i=0;i<size*2+1;i++){
     miroArray[i]= new Array(size*2+1).fill(1);
 }
-const maze1=generator(size,size,true,1235);
+const maze1=generator(size,size,true,1245);
 // 양끝이 닫혀 있는 미로 자동 생성기
 //maze의 값을 참고하여 배열 만들기가 목표
-console.log(miroArray);
-console.log("maze1",maze1);
 
 if(size%2==0){//짝수
     miroArray[0][size+1]=0;//S
@@ -41,34 +39,8 @@ for (let i = 0; i <size; i++) {//maze1
 }
 const maze=miroArray;
 
-// 미로 환경 설정
-// const maze = [
-//     [1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1],
-//     [1,0,1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,1],
-//     [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1],
-//     [1,0,1,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,1,0,1],
-//     [1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1],//5
-//     [1,0,1,0,1,0,1,0,0,0,0,0,1,0,1,0,1,0,1,0,1],
-//     [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1],
-//     [1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,1],
-//     [1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1],
-//     [1,0,1,0,1,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,1],//10
-//     [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-//     [1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-//     [1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1],
-//     [1,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1],
-//     [1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1], //15
-//     [1,0,1,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1],
-//     [1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1,1,1,1,1],
-//     [1,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,0,0,0,0,1],
-//     [1,0,1,0,1,0,1,1,1,0,1,0,1,1,1,1,1,0,1,1,1],
-//     [1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1], //20
-//     [1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1]
-    
-// ];
-
-const start = [0, 101];
-const goal = [200, 99];
+const start = [0, size+1];
+const goal = [size*2, size-1];
 
 // Q-learning 파라미터 설정
 const alpha = 0.1; // 학습률
@@ -107,15 +79,15 @@ function getNextState(state, action) {
 }
 
 // Q-learning 알고리즘
-async function qLearning() {
-    var maxEpisodes = parseInt(document.getElementById('episodes').value) || 1000;
-    console.log(maze)
-    var generatedMaze = generator(15,15,true,12345);
-    console.log(generatedMaze);
+function qLearning() {
+    var maxEpisodes = parseInt(document.getElementById('episodes').value) || 2000;
     for (let episode = 0; episode < maxEpisodes; episode++) {
         let state = start;
-        console.log(`Episode ${episode + 1}: Starting at state ${state}`);
+        if(episode%100==99) console.log(`Episode ${episode + 1}: Starting at state ${state}`);
+        let count = 0;
         while (true) {
+            count++;
+            if(count>maze.length*maze[0].length*4) break; // 무한 루프 방지
             // 탐험 또는 활용 결정
             let action;
             if (Math.random() < epsilon) {
@@ -141,9 +113,11 @@ async function qLearning() {
             }
             
         }
-        await delay(1);
-        if(episode%10==0) displayMaze();
+        // await delay(1);
+        if(episode%100==99) displayMaze();
     }
+    // console.log('Q-learning completed.');
+    // console.log('Q-table:', qTable);
     displayOptimalPath();
     
 }
@@ -237,5 +211,7 @@ export function runQLearning() {
     console.log('Starting Q-learning...');
     
     qLearning();
+
+    displayOptimalPath();
     
 }
