@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q-learning Maze Solver</title>
+    <title>AI 강화학습 시뮬레이션</title>
     <style>
         #maze {
             display: grid;
             grid-template-columns: repeat(101, 10px);
             grid-template-rows: repeat(101, 10px);
+        }
+        #parameters {
+            display: grid;
+            grid-template-columns: repeat(5, 200px);
+            grid-template-rows: repeat(2, 50px);
         }
         .cell {
             width: 10px;
@@ -33,21 +38,35 @@
 </head>
 <body>
     <h1>AI 강화학습 시뮬레이션</h1>
+    <p>강화학습을 통해 AI가 미로를 탐색하고 목표 지점에 도달하는 과정을 시뮬레이션합니다.</p>
+    <p>아래의 입력란에 학습률, 할인율, 탐험율, 훈련 횟수를 설정한 후 "AI 학습 시작" 버튼을 클릭하세요.</p>
+    <p>학습이 완료되면 AI가 최적의 경로를 찾아가는 과정을 시각적으로 확인할 수 있습니다.</p>
+    <p>학습률, 할인율, 탐험율은 각각 AI의 학습 속도, 미래 보상에 대한 중요도, 탐험과 활용의 균형을 조절합니다.</p>
+    <p>훈련 횟수는 AI가 학습하는 에피소드의 수를 의미합니다. 훈련 횟수가 많을수록 AI는 더 많은 경험을 쌓고 최적의 경로를 찾을 확률이 높아집니다.</p>
+    <p>벽은 검은색으로 표시되며, 시작 지점은 초록색, 목표 지점은 빨간색으로 표시됩니다. AI가 탐색하는 경로는 노란색으로 표시됩니다.</p>
+    <p>아래 미로는 50x50 크기의 미로입니다.</p>
     <div id="maze"></div>
-    <p>
-        학습률: <input type text id="learningRate" placeholder="Learning Rate (0.1)">
-    </p>
-    <p>
-        할인율: <input type text id="discountFactor" placeholder="Discount Factor (0.9)"> 
-    </p> 
-    <p>
-        탐험율: <input type text id="epsilon" placeholder="Epsilon (0.1)">
-    </p>
-    <p>
-        훈련 횟수: <input type text id="episodes" placeholder="Episodes (3000)"> 
-
-    </p>    
-        <button id="runQLearningBtn">AI 학습 시작</button>
+    <div id="parameters">
+        <p>
+            <label for="learningRate">학습률 (Learning Rate):</label>
+            <input type="text" id="learningRate" placeholder="0.1">
+        </p>
+        <p>
+            <label for="discountFactor">할인율 (Discount Factor):</label>
+            <input type="text" id="discountFactor" placeholder="0.9">
+        </p>
+        <p>
+            <label for="epsilon">탐험율 (Epsilon):</label>
+            <input type="text" id="epsilon" placeholder="0.1">
+        </p>
+        <p>
+            <label for="episodes">훈련 횟수 (Episodes):</label>
+            <input type="text" id="episodes" placeholder="3000">
+        </p>    
+        <p><button id="runQLearningBtn">AI 학습 시작</button></p>
+    </div>
+    
+        
     <script type="module" src="./src/qlearning.js"></script>
     <script>
       window.addEventListener('DOMContentLoaded', () => {
