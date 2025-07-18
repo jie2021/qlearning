@@ -7,7 +7,9 @@ let miroArray=[];
 for(let i=0;i<size*2+1;i++){
     miroArray[i]= new Array(size*2+1).fill(1);
 }
-const maze1=generator(size,size,true,1245);
+const seed = parseInt(Math.random()*1000);
+console.log("seed: "+seed);
+const maze1=generator(size,size,true,seed);
 // 양끝이 닫혀 있는 미로 자동 생성기
 //maze의 값을 참고하여 배열 만들기가 목표
 
@@ -95,7 +97,7 @@ async function  qLearning() {
     var maxEpisodes = parseInt(document.getElementById('episodes').value) || 3000;
     for (let episode = 0; episode < maxEpisodes; episode++) {
         let state = start;
-        if(episode%100==99) console.log(`Episode ${episode + 1}: Starting at state ${state}`);
+        // if(episode%100==99) console.log(`Episode ${episode + 1}: Starting at state ${state}`);
         let count = 0;
         while (true) {
             count++;
@@ -127,15 +129,19 @@ async function  qLearning() {
             
         }
         // await delay(1);
-        if(episode%10==9){
+        if(episode%100==99){
             document.getElementById('progress').innerText = `${episode + 1}/${maxEpisodes}`;
             await delay(0); // Force browser to render progress update
-            displayMaze();  
+            // displayMaze();  
+            if(displayOptimalPath()){
+                console.log("found path");
+                break;
+            };
         }         
     }
-    console.log('Q-learning completed.');
-    console.log('Q-table:', qTable);
-    displayOptimalPath();
+    // console.log('Q-learning completed.');
+    // console.log('Q-table:', qTable);
+    // displayOptimalPath();
     
 }
 
@@ -160,6 +166,8 @@ export function displayMaze() {
                 cell.classList.add('goal');
             } else if (qTable[i][j].some(q => q > 0)) {
                 cell.classList.add('path');
+            } else if (qTable[i][j].some(q => q < 0)) {
+                cell.classList.add('candidate');
             }
             mazeContainer.appendChild(cell);
         }
@@ -201,6 +209,7 @@ function findOptimalPath() {
 // 최단 경로 표시 함수
 function displayOptimalPath() {
     const path = findOptimalPath();
+    // console.log(path);
     const mazeContainer = document.getElementById('maze');
     mazeContainer.innerHTML = '';
     for (let i = 0; i < maze.length; i++) {
@@ -215,9 +224,16 @@ function displayOptimalPath() {
                 cell.classList.add('goal');
             } else if (path.some(p => p[0] === i && p[1] === j)) {
                 cell.classList.add('path');
+            } else if (qTable[i][j].some(q => q < 0)) {
+                cell.classList.add('candidate');
             }
             mazeContainer.appendChild(cell);
         }
+    }
+    if(path.some(p => p[0] === goal[0] && p[1] === goal[1])) {
+        return true;
+    }else{
+        return false;
     }
 }
 
@@ -229,6 +245,6 @@ export function runQLearning() {
     
     qLearning();
 
-    displayOptimalPath();
+    // displayOptimalPath();
     
 }

@@ -66,6 +66,9 @@ h1 {
 .path {
     background-color: yellow;
 }
+.candidate {
+    background-color: blue;
+}
 #runQLearningBtn {
   margin-top: 0em;
   padding: 0.5em 1em;
